@@ -1,6 +1,9 @@
 const express = require("express");
 const { errorHandler } = require("./middleware/errorHandler");
+const connectDb = require("./config/dbConnection");
 const dotenv = require("dotenv").config();
+
+connectDb(); //host and name displayed in console
 
 const app = express();
 
