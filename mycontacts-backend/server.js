@@ -14,6 +14,7 @@ app.use(express.json());
 
 //adding routing middleware
 app.use("/api/contacts", require("./routes/contactRoutes"));
+app.use("/api/users", require("./routes/userRoutes"));
 
 //middleware : error handling
 app.use(errorHandler);
