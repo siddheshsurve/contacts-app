@@ -3,7 +3,8 @@ const { errorHandler } = require("./middleware/errorHandler");
 const connectDb = require("./config/dbConnection");
 const dotenv = require("dotenv").config();
 
-connectDb(); //host and name displayed in console
+//host and name displayed in console
+connectDb(); 
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/api/users", require("./routes/userRoutes"));
 //middleware : error handling
 app.use(errorHandler);
 
+//listen port
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 })
