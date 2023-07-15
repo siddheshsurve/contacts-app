@@ -1,11 +1,12 @@
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 
 //@desc Register a user
 //@route POST /api/users/register
 //@access public
 const registerUser = asyncHandler(async(req, res) => {
-    const [ username, email, password ] = req.body;
+    const { username, email, password } = req.body;
     if(!username || !email || !password) {
         res.status(400);
         throw new Error("All fields are mandatory!");
@@ -18,7 +19,29 @@ const registerUser = asyncHandler(async(req, res) => {
         throw new Error("User already registered!");
     }
 
-    
+    //Hash Password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Hashed password : ", hashedPassword);
+
+    //create new user
+    const user = await User.create({
+        username,
+        email,
+        password : hashedPassword,
+    });
+
+    //display if user created successfully
+    console.log(`User created ${user}`);
+    if(user) {
+        res.status(201).json({
+            _id : user.id,
+            email : user.email,
+        })
+    }
+    else{
+        res.status(400);
+        throw new Error("User data is not valid");
+    }
 
     res.json({ message : "Register the user" });
 });
